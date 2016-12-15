@@ -38,6 +38,11 @@ var xmas = ( function() {
     // store the canvas size
     W: 0,
     H: 0,
+    
+    // track the maximum number of snowflakes to display.
+    // this value can increase/decrease as the fps allow
+    maxFlakes: 20,
+    snowflakes: []
   }
   
   
@@ -148,7 +153,47 @@ var xmas = ( function() {
     data.context.font = '20px arial';
     data.context.fillStyle = '#fff';
     data.context.fillText('fps:' + data.fps.current, 50, 20);
+    data.context.fillText('flakes:' + data.maxFlakes, 50, 40);
   }
+  
+  
+  /*
+   * Create a unique snowflake.
+   */
+  function makeFlake () {
+      return {
+        x: Math.random() * data.W,
+        y: Math.random() * data.H,
+        r: Math.random() * 4 + 1,           // draw radius
+        d: Math.random() * data.maxFlakes   // density (adjusts behaviour)
+      }
+  }
+
+  
+  /*
+   * Increase and decrease the number of snowflakes as allowed by fps.
+   */
+  function adjustFlakes() {
+    // reduce snowflakes while fps is low
+    if (data.fps.current < 10) {
+      // clamp to a minimum number
+      data.maxFlakes = Math.max(10, data.maxFlakes - 10);
+    }
+    else if (data.fps.current > 30) {
+      // clamp to a maximum number
+      data.maxFlakes = Math.min(500, data.maxFlakes + 10);
+    }
+    // cull any extra flakes
+    if (data.snowflakes.length > data.maxFlakes) {
+      data.snowflakes.splice(data.maxFlakes, data.snowflakes.length - data.maxFlakes);
+    }
+    // add any missing flakes
+    while (data.snowflakes.length < data.maxFlakes) {
+      data.snowflakes.push(makeFlake());
+    }
+  }
+  setInterval(adjustFlakes, 1000);
+
 
   // start resource loading and canvas setup
   loadResources();
