@@ -54,10 +54,52 @@ var xmas = ( function() {
     data.context = data.canvas.getContext('2d');
   }
 
+  
+  /*
+   * A simple frames per second calculator.
+   */
+  data.fps = {
+    current: 0,
+    startTime: 0,	
+    frameNumber: 0,	
+    getFPS: function(){		
+      this.frameNumber++;		
+      var d = new Date().getTime();
+      var currentTime = ( d - this.startTime ) / 1000;
+      this.current = Math.floor( ( this.frameNumber / currentTime ) );
+      if( currentTime > 1 ){
+        this.startTime = new Date().getTime();
+        this.frameNumber = 0;
+      }
+    }
+  };
+  
+  
+  /*
+   * Main drawing loop.
+   */
+  function draw() {
+
+    requestAnimationFrame(draw);
+    
+    if (!data.loaded) return;
+    
+    // clear the screen
+    data.context.clearRect(0, 0, 200, 30);
+    
+    // calculate rendering speed
+    data.fps.getFPS();
+    
+    // print debug information
+    data.context.font = '20px arial';
+    data.context.fillStyle = '#fff';
+    data.context.fillText('fps:' + data.fps.current, 50, 20);
+  }
 
   // start resource loading and canvas setup
   loadResources();
   setupCanvas();
+  draw();
   
   // return our data store to the main window scope
   return data;
