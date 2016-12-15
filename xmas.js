@@ -12,3 +12,43 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
+
+
+/*
+ * wrapped in a closure so we don't create global variable pollution.
+ */
+var xmas = ( function() {
+  
+  /*
+   * Our data object houses preloaded images, snowflake data and
+   * anything else we want to persist.
+   */
+  var data = {
+    loaded: false,
+    canvas: null,
+    ctx: null,
+    images: {}
+  }
+  
+  
+  /*
+   * A basic preloader that looks for predefined images, and loads
+   * them as images become available.
+   * Once all are loaded, set the 'loaded' property true.
+   */
+  function loadResources() {
+    data.images.tree = document.querySelector('img[data-name="tree"]');
+    data.images.star = document.querySelector('img[data-name="star"]');
+    data.loaded = (data.images.tree != null && data.images.star != null);
+    // retry if not yet loaded
+    if (!data.loaded) setTimeout(loadResources, 500);
+  }
+
+
+  // start resource loading
+  loadResources();
+  
+  // return our data store to the main window scope
+  return data;
+  
+})();
