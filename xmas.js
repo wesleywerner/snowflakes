@@ -26,7 +26,7 @@ var xmas = ( function() {
   var data = {
     loaded: false,
     canvas: null,
-    ctx: null,
+    context: null,
     images: {}
   }
   
@@ -43,10 +43,21 @@ var xmas = ( function() {
     // retry if not yet loaded
     if (!data.loaded) setTimeout(loadResources, 500);
   }
+  
+  
+  /*
+   * Set up the canvas context.
+   */
+  function setupCanvas() {
+    data.canvas = document.querySelector('canvas');
+    if (data.canvas == null) throw ('No canvas element found on the page.');
+    data.context = data.canvas.getContext('2d');
+  }
 
 
-  // start resource loading
+  // start resource loading and canvas setup
   loadResources();
+  setupCanvas();
   
   // return our data store to the main window scope
   return data;
