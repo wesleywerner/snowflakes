@@ -97,6 +97,21 @@ var xmas = ( function() {
       data.canvas.width = data.W;
       data.canvas.height = data.H;
     }
+    // recalculate image positions
+    if (data.loaded) {
+      // place the tree at the bottom-center
+      var tree = data.images.tree;
+      tree.pos = {
+        x: data.W / 2 - tree.width / 2,
+        y: data.H - tree.height
+      }
+      // place the star above the tree
+      var star = data.images.star;
+      star.pos = {
+        x: tree.pos.x + tree.width / 2,
+        y: tree.pos.y
+      }
+    }
   }
   // perform this check periodically
   setInterval(resizeCheck, 1000);
@@ -113,6 +128,18 @@ var xmas = ( function() {
     
     // clear the screen
     data.context.clearRect(0, 0, data.W, data.H);
+    
+    // draw our tree
+    data.context.drawImage(
+      data.images.tree,
+      data.images.tree.pos.x,
+      data.images.tree.pos.y);
+    
+    // draw our star
+    data.context.drawImage(
+      data.images.star,
+      data.images.star.pos.x,
+      data.images.star.pos.y);
     
     // calculate rendering speed
     data.fps.getFPS();
