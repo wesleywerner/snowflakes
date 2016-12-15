@@ -24,10 +24,20 @@ var xmas = ( function() {
    * anything else we want to persist.
    */
   var data = {
+    
+    // flag indicating when images are loaded
     loaded: false,
+    
+    // store the canvas and context
     canvas: null,
     context: null,
-    images: {}
+    
+    // image store
+    images: {},
+    
+    // store the canvas size
+    W: 0,
+    H: 0,
   }
   
   
@@ -76,16 +86,33 @@ var xmas = ( function() {
   
   
   /*
+   * Check for window size change and recalculate positions.
+   */
+  function resizeCheck() {
+    // only when the known size differs from the actual
+    if (data.W != window.innerWidth || data.H != window.innerHeight) {
+      data.W = window.innerWidth;
+      data.H = window.innerHeight;
+      // apply the size to the canvas
+      data.canvas.width = data.W;
+      data.canvas.height = data.H;
+    }
+  }
+  // perform this check periodically
+  setInterval(resizeCheck, 1000);
+
+  
+  /*
    * Main drawing loop.
    */
   function draw() {
 
     requestAnimationFrame(draw);
     
-    if (!data.loaded) return;
+    if (!data.loaded || data.W == 0) return;
     
     // clear the screen
-    data.context.clearRect(0, 0, 200, 30);
+    data.context.clearRect(0, 0, data.W, data.H);
     
     // calculate rendering speed
     data.fps.getFPS();
