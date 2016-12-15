@@ -39,10 +39,13 @@ var xmas = ( function() {
     W: 0,
     H: 0,
     
-    // track the maximum number of snowflakes to display.
-    // this value can increase/decrease as the fps allow
+    // Track the maximum number of snowflakes to display,
+    // this can increase/decrease as the fps allow.
+    // Track the angle counter, used to move snowflakes with the sin
+    // function to give the appearance of blowing in the wind.
     maxFlakes: 20,
-    snowflakes: []
+    snowflakes: [],
+    flakeAngle: 0
   }
   
   
@@ -146,6 +149,9 @@ var xmas = ( function() {
       data.images.star.pos.x,
       data.images.star.pos.y);
     
+    // draw our snow
+    renderSnowflakes();
+    
     // calculate rendering speed
     data.fps.getFPS();
     
@@ -156,6 +162,57 @@ var xmas = ( function() {
     data.context.fillText('flakes:' + data.maxFlakes, 50, 40);
   }
   
+
+  /*
+   * Update and draw snowflakes.
+   */
+  function renderSnowflakes() {
+
+    data.context.fillStyle = "rgba(255, 255, 255, 0.4)";
+    data.context.beginPath();
+    
+    // the angle, pushed through sin and cos functions, oscillates
+    // the flake movement.
+    data.flakeAngle += 0.01;
+    
+    for (var i=0; i<data.snowflakes.length; i++) {
+    
+      var p = data.snowflakes[i];
+      
+      // the vertical cosine movement gives the appearance of up-drafts
+      var y = Math.cos(data.flakeAngle);
+      
+      // clamp to positive values so our flakes don't go up
+      y = Math.max (0.5, y);
+      
+      // larger flakes fall quicker, giving a nice parallax effect
+      y += (p.r * 0.1);
+      
+      // the horizontal sine movement gives the appearance of a breeze
+      var x = Math.sin(data.flakeAngle) * 0.5;
+      
+      // larger flakes get the horizontal speed bonus too
+      x += (p.r * 0.1);
+      
+      // finally, update the flake position
+      p.x += x;
+      p.y += y;
+      
+      // add the flake arc to the drawing path
+      data.context.moveTo(p.x, p.y);
+      data.context.arc(p.x, p.y, p.r, 0, Math.PI*2, true);
+      
+      // warp flakes lost to the bottom of the window, back to the top
+      if(p.y > data.H) {
+        data.snowflakes[i] = makeFlake();
+      }
+
+    }
+    
+    data.context.fill();
+    
+  }
+
   
   /*
    * Create a unique snowflake.
