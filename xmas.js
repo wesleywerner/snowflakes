@@ -47,7 +47,7 @@ var xmas = ( function() {
     snowflakes: [],
     flakeAngle: 0,
     
-    usermessage: 'Wishing you a festive holiday!\nWith Love\nWesley and Jade'
+    usermessage: 'Wishing you a festive holiday!'
   }
   
   
@@ -315,9 +315,24 @@ var xmas = ( function() {
     }
   }
   setInterval(adjustFlakes, 1000);
+  
+  
+  /*
+   * Read the user message from the url querystring.
+   */
+  function readUserMessage() {
+    var hash = window.location.hash;
+    if (hash == '') {
+      console.log('user messsage query is empty');
+      return;
+    }
+    data.usermessage = atob(hash.slice(1));
+    console.log('decoded user message as: ' + data.usermessage);
+  }
 
 
   // start resource loading and canvas setup
+  readUserMessage();
   loadResources();
   setupCanvas();
   draw();
