@@ -80,15 +80,21 @@ var xmas = ( function() {
     current: 0,
     startTime: 0,	
     frameNumber: 0,	
-    getFPS: function(){		
+    delta: 0,
+    lastTime: 0,
+    getFPS: function() {
+      // track the frames drawn per second
       this.frameNumber++;		
-      var d = new Date().getTime();
-      var currentTime = ( d - this.startTime ) / 1000;
+      var now = new Date().getTime();
+      var currentTime = ( now - this.startTime ) / 1000;
       this.current = Math.floor( ( this.frameNumber / currentTime ) );
       if( currentTime > 1 ){
         this.startTime = new Date().getTime();
         this.frameNumber = 0;
       }
+      // track the difference in milliseconds since the last update
+      this.delta = (now - this.lastTime) / 1000;
+      this.lastTime = now;
     }
   };
   
@@ -150,7 +156,7 @@ var xmas = ( function() {
       data.images.star.pos.y);
     
     // draw our snow
-    renderSnowflakes();
+    renderSnowflakes(data.fps.delta);
     
     // calculate rendering speed
     data.fps.getFPS();
@@ -160,13 +166,14 @@ var xmas = ( function() {
     data.context.fillStyle = '#fff';
     data.context.fillText('fps:' + data.fps.current, 50, 20);
     data.context.fillText('flakes:' + data.maxFlakes, 50, 40);
+    data.context.fillText('delta:' + data.fps.delta, 50, 60);
   }
   
 
   /*
    * Update and draw snowflakes.
    */
-  function renderSnowflakes() {
+  function renderSnowflakes(dt) {
 
     data.context.fillStyle = "rgba(255, 255, 255, 0.4)";
     data.context.beginPath();
@@ -194,9 +201,10 @@ var xmas = ( function() {
       // larger flakes get the horizontal speed bonus too
       x += (p.r * 0.1);
       
-      // finally, update the flake position
-      p.x += x;
-      p.y += y;
+      // finally, update the flake position at a delta ratio so it looks
+      // consistent across varying framerates, with a speed factor.
+      p.x += x * dt * 50;
+      p.y += y * dt * 50;
       
       // add the flake arc to the drawing path
       data.context.moveTo(p.x, p.y);
