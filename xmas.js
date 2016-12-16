@@ -125,6 +125,8 @@ var xmas = ( function() {
         x: tree.pos.x + tree.width / 2,
         y: tree.pos.y
       }
+      star.cenX = star.width/2;
+      star.cenY = star.height/2;
     }
   }
   // perform this check periodically
@@ -149,11 +151,14 @@ var xmas = ( function() {
       data.images.tree.pos.x,
       data.images.tree.pos.y);
     
-    // draw our star
-    data.context.drawImage(
-      data.images.star,
-      data.images.star.pos.x,
-      data.images.star.pos.y);
+    // draw our rotating star
+    var star = data.images.star;
+    star.angle = (star.angle || 0) + 0.01;
+    data.context.save();
+    data.context.translate(data.images.star.pos.x, data.images.star.pos.y);
+    data.context.rotate(data.images.star.angle);
+    data.context.drawImage(data.images.star, -star.cenX, -star.cenY);
+    data.context.restore();
     
     // draw our snow
     renderSnowflakes(data.fps.delta);
