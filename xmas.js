@@ -47,7 +47,6 @@ var xmas = ( function() {
     snowflakes: [],
     flakeAngle: 0,
     
-    usermessage: 'Wishing you a festive holiday!'
   }
   
   
@@ -115,13 +114,13 @@ var xmas = ( function() {
     }
     // recalculate image positions
     if (data.loaded) {
-      // place the tree at the bottom-center
+      // position the tree
       var tree = data.images.tree;
       tree.pos = {
-        x: data.W / 2 - tree.width / 2,
+        x: data.W / 4 - tree.width / 2,
         y: data.H - tree.height
       }
-      // place the star above the tree
+      // position the star
       var star = data.images.star;
       star.pos = {
         x: tree.pos.x + tree.width / 2,
@@ -147,18 +146,6 @@ var xmas = ( function() {
     // clear the screen
     data.context.clearRect(0, 0, data.W, data.H);
     
-    // merry message
-    data.context.save();
-    data.context.font = '80px Molle';
-    data.context.fillStyle = '#9f9';
-    data.context.textAlign = 'center';
-    data.context.fillText('Merry Xmas', data.W/2, 100);
-    // outline
-    data.context.strokeStyle = '#090';
-    data.context.lineWidth = 3;
-    data.context.strokeText('Merry Xmas', data.W/2, 100);
-    data.context.restore();
-    
     // draw our tree
     data.context.drawImage(
       data.images.tree,
@@ -173,9 +160,6 @@ var xmas = ( function() {
     data.context.rotate(data.images.star.angle);
     data.context.drawImage(data.images.star, -star.cenX, -star.cenY);
     data.context.restore();
-    
-    // print customized message
-    printUserMessage(data.W/2, data.H/2);
     
     // draw our snow
     renderSnowflakes(data.fps.delta);
@@ -245,41 +229,6 @@ var xmas = ( function() {
   
   
   /*
-   * Prints the user message.
-   * Since canvas does not support multi lines out the box
-   * we have to split the text and call fillText multiple times.
-   */
-  function printUserMessage(x, y) {
-    
-    var lines = data.usermessage.split('\n');
-    
-    data.context.save();
-    
-    // message style
-    data.context.font = '36px Molle';
-    data.context.fillStyle = '#fff';
-    data.context.textAlign = 'center';
-    
-    var lineHeight = 42;
-    for (var i=0; i<lines.length; i++) {
-      // shadow
-      data.context.strokeStyle = '#000';
-      data.context.lineWidth = 4;
-      data.context.strokeText(lines[i], x, y);
-      // print the words
-      data.context.fillText(lines[i], x, y);
-      // outline them
-      data.context.strokeStyle = '#f00';
-      data.context.lineWidth = 1.4;
-      data.context.strokeText(lines[i], x, y);
-      y += lineHeight;
-    }
-
-    data.context.restore();
-  }
-  
-  
-  /*
    * Create a unique snowflake.
    */
   function makeFlake () {
@@ -326,7 +275,9 @@ var xmas = ( function() {
       console.log('user messsage query is empty');
       return;
     }
-    data.usermessage = atob(hash.slice(1));
+    // get the user message element
+    var el = document.getElementById('usermessage');
+    el.innerText = atob(hash.slice(1));
     console.log('decoded user message as: ' + data.usermessage);
   }
 

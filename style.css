@@ -20,3 +20,40 @@ body {
 canvas {
 	display: block;
 }
+
+#container {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  right: 40px;
+  top: 40px;
+}
+
+#merrymessage {
+  top: 10px;
+  color: #9f9;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Molle', cursive;
+  font-size: 5em;
+  text-shadow:
+  -3px -1px 0 #090,
+  3px -1px 0 #090,
+  -3px 1px 0 #090,
+  3px 1px 0 #090; 
+}
+
+#usermessage {
+  position: absolute;
+  top: 160px;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Molle', cursive;
+  font-size: 4em;
+  text-shadow:
+  -1px -1px 0 #f00,
+  1px -1px 0 #f00,
+  -1px 1px 0 #f00,
+  1px 1px 0 #f00; 
+}
