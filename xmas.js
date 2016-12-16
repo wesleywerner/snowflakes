@@ -145,6 +145,16 @@ var xmas = ( function() {
     // clear the screen
     data.context.clearRect(0, 0, data.W, data.H);
     
+    // merry message
+    data.context.font = '80px Molle';
+    data.context.fillStyle = '#9f9';
+    data.context.fillText('Merry Xmas', data.W/2, 100);
+    data.context.textAlign = 'center';
+    // outline
+    data.context.strokeStyle = '#090';
+    data.context.lineWidth = 3;
+    data.context.strokeText('Merry Xmas', data.W/2, 100);
+
     // draw our tree
     data.context.drawImage(
       data.images.tree,
