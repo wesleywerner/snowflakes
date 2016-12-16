@@ -45,7 +45,9 @@ var xmas = ( function() {
     // function to give the appearance of blowing in the wind.
     maxFlakes: 20,
     snowflakes: [],
-    flakeAngle: 0
+    flakeAngle: 0,
+    
+    usermessage: 'Wishing you a festive holiday!\nWith Love\nWesley and Jade'
   }
   
   
@@ -146,15 +148,17 @@ var xmas = ( function() {
     data.context.clearRect(0, 0, data.W, data.H);
     
     // merry message
+    data.context.save();
     data.context.font = '80px Molle';
     data.context.fillStyle = '#9f9';
-    data.context.fillText('Merry Xmas', data.W/2, 100);
     data.context.textAlign = 'center';
+    data.context.fillText('Merry Xmas', data.W/2, 100);
     // outline
     data.context.strokeStyle = '#090';
     data.context.lineWidth = 3;
     data.context.strokeText('Merry Xmas', data.W/2, 100);
-
+    data.context.restore();
+    
     // draw our tree
     data.context.drawImage(
       data.images.tree,
@@ -169,6 +173,9 @@ var xmas = ( function() {
     data.context.rotate(data.images.star.angle);
     data.context.drawImage(data.images.star, -star.cenX, -star.cenY);
     data.context.restore();
+    
+    // print customized message
+    printUserMessage(data.W/2, data.H/2);
     
     // draw our snow
     renderSnowflakes(data.fps.delta);
@@ -235,7 +242,42 @@ var xmas = ( function() {
     data.context.fill();
     
   }
+  
+  
+  /*
+   * Prints the user message.
+   * Since canvas does not support multi lines out the box
+   * we have to split the text and call fillText multiple times.
+   */
+  function printUserMessage(x, y) {
+    
+    var lines = data.usermessage.split('\n');
+    
+    data.context.save();
+    
+    // message style
+    data.context.font = '36px Molle';
+    data.context.fillStyle = '#fff';
+    data.context.textAlign = 'center';
+    
+    var lineHeight = 42;
+    for (var i=0; i<lines.length; i++) {
+      // shadow
+      data.context.strokeStyle = '#000';
+      data.context.lineWidth = 4;
+      data.context.strokeText(lines[i], x, y);
+      // print the words
+      data.context.fillText(lines[i], x, y);
+      // outline them
+      data.context.strokeStyle = '#f00';
+      data.context.lineWidth = 1.4;
+      data.context.strokeText(lines[i], x, y);
+      y += lineHeight;
+    }
 
+    data.context.restore();
+  }
+  
   
   /*
    * Create a unique snowflake.
