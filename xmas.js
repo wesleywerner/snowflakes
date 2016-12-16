@@ -47,6 +47,9 @@ var xmas = ( function() {
     snowflakes: [],
     flakeAngle: 0,
     
+    // print debug info on screen
+    debug: false
+    
   }
   
   
@@ -168,11 +171,13 @@ var xmas = ( function() {
     data.fps.getFPS();
     
     // print debug information
-    data.context.font = '20px arial';
-    data.context.fillStyle = '#fff';
-    data.context.fillText('fps:' + data.fps.current, 50, 20);
-    data.context.fillText('flakes:' + data.maxFlakes, 50, 40);
-    data.context.fillText('delta:' + data.fps.delta, 50, 60);
+    if (data.debug == true) {
+      data.context.font = '20px arial';
+      data.context.fillStyle = '#fff';
+      data.context.fillText('fps:' + data.fps.current, 50, 20);
+      data.context.fillText('flakes:' + data.maxFlakes, 50, 40);
+      data.context.fillText('delta:' + data.fps.delta, 50, 60);
+    }
   }
   
 
