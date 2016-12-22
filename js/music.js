@@ -19,17 +19,18 @@
 function playMusic() {
   
   function onSongLoaded(player) {
-      player.play();
+    player.play();
   }
   
   xmas.modPlayer = new ScripTracker();
   xmas.modPlayer.on(ScripTracker.Events.playerReady, onSongLoaded);
-  xmas.modPlayer.loadModule("https://api.modarchive.org/downloads.php?moduleid=118434#christmas_dance_mix.mod");
+  xmas.modPlayer.loadModule("media/christmas_bonanza.xm");
 
-xmas.modPlayer.on(ScripTracker.Events.instrument, 3, onInstrument);
-function onInstrument(player, instrument, channel, note, effect, effectParam) {
-    console.log("Instrument " + instrument + " playing note " + note + " on channel " + channel + ".");
-}
+  xmas.modPlayer.on(ScripTracker.Events.instrument, 1, onInstrument);
+  function onInstrument(player, instrument, channel, note, effect, effectParam) {
+    //console.log("Instrument " + instrument + " playing note " + note + " on channel " + channel + ".");
+    xmas.makeSparkle();
+  }
 }
 
 function toggleMusic() {
