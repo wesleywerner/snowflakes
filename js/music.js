@@ -25,6 +25,11 @@ function playMusic() {
   xmas.modPlayer = new ScripTracker();
   xmas.modPlayer.on(ScripTracker.Events.playerReady, onSongLoaded);
   xmas.modPlayer.loadModule("https://api.modarchive.org/downloads.php?moduleid=118434#christmas_dance_mix.mod");
+
+xmas.modPlayer.on(ScripTracker.Events.instrument, 3, onInstrument);
+function onInstrument(player, instrument, channel, note, effect, effectParam) {
+    console.log("Instrument " + instrument + " playing note " + note + " on channel " + channel + ".");
+}
 }
 
 function toggleMusic() {
