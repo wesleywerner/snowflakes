@@ -299,6 +299,21 @@ var xmas = ( function() {
     el.innerText = atob(hash.slice(1));
     console.log('decoded user message as: ' + data.usermessage);
   }
+  
+  
+  /*
+   * Play some festive music.
+   */
+  function playMusic() {
+    
+    function onSongLoaded(player) {
+        player.play();
+    }
+    
+    data.modPlayer = new ScripTracker();
+    data.modPlayer.on(ScripTracker.Events.playerReady, onSongLoaded);
+    data.modPlayer.loadModule("https://api.modarchive.org/downloads.php?moduleid=118434#christmas_dance_mix.mod");
+  }
 
 
   // start resource loading and canvas setup
@@ -306,6 +321,7 @@ var xmas = ( function() {
   loadResources();
   setupCanvas();
   draw();
+  playMusic();
   
   // return our data store to the main window scope
   return data;
