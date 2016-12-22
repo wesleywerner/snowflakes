@@ -1,0 +1,3 @@
+[submodule "ScripTracker"]
+	path = ScripTracker
+	url = https://github.com/DhrBaksteen/ScripTracker.git
