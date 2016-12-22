@@ -57,3 +57,9 @@ canvas {
   -1px 1px 0 #f00,
   1px 1px 0 #f00; 
 }
+
+#fullscreenbutton {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
