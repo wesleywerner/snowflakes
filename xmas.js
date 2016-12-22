@@ -237,12 +237,26 @@ var xmas = ( function() {
    * Create a unique snowflake.
    */
   function makeFlake () {
-      return {
-        x: Math.random() * data.W,
-        y: Math.random() * data.H,
-        r: Math.random() * 4 + 1,           // draw radius
-        d: Math.random() * data.maxFlakes   // density (adjusts behaviour)
-      }
+    
+    // position it randomly on the x axis
+    var x = Math.random() * data.W;
+    
+    // position flakes with a random padding outside the screen
+    // so it appears to float in from the sides
+    var padding = 100;
+    
+    var rnd = Math.floor( Math.random() * padding );
+    x -= rnd;
+    
+    // the flake starts at the top.
+    var y = 0;
+    
+    return {
+      x: x,
+      y: y,
+      r: Math.random() * 4 + 1,           // draw radius
+      d: Math.random() * data.maxFlakes   // density (adjusts behaviour)
+    }
   }
 
   
