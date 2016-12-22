@@ -47,6 +47,9 @@ var xmas = ( function() {
     snowflakes: [],
     flakeAngle: 0,
     
+    // flashing sparkles
+    sparkles: [],
+    
     // print debug info on screen
     debug: false
     
@@ -61,7 +64,10 @@ var xmas = ( function() {
   function loadResources() {
     data.images.tree = document.querySelector('img[data-name="tree"]');
     data.images.star = document.querySelector('img[data-name="star"]');
-    data.loaded = (data.images.tree != null && data.images.star != null);
+    data.images.sparkle = document.querySelector('img[data-name="sparkle"]');
+    data.loaded = (data.images.tree != null && 
+      data.images.star != null &&
+      data.images.sparkle != null);
     // retry if not yet loaded
     if (!data.loaded) setTimeout(loadResources, 500);
   }
@@ -131,6 +137,11 @@ var xmas = ( function() {
       }
       star.cenX = star.width/2;
       star.cenY = star.height/2;
+      // position the sparkle
+      var sparkle = data.images.sparkle;
+      sparkle.cenX = sparkle.width/2;
+      sparkle.cenY = sparkle.height/2;
+
     }
   }
   // perform this check periodically
@@ -166,6 +177,8 @@ var xmas = ( function() {
     
     // draw our snow
     renderSnowflakes(data.fps.delta);
+    
+    renderSparkles(data.fps.delta);
     
     // calculate rendering speed
     data.fps.getFPS();
@@ -265,11 +278,11 @@ var xmas = ( function() {
    */
   function adjustFlakes() {
     // reduce snowflakes while fps is low
-    if (data.fps.current < 10) {
+    if (data.fps.current < 30) {
       // clamp to a minimum number
       data.maxFlakes = Math.max(10, data.maxFlakes - 10);
     }
-    else if (data.fps.current > 30) {
+    else if (data.fps.current > 40) {
       // clamp to a maximum number
       data.maxFlakes = Math.min(500, data.maxFlakes + 10);
     }
@@ -298,6 +311,46 @@ var xmas = ( function() {
     var el = document.getElementById('usermessage');
     el.innerText = atob(hash.slice(1));
     console.log('decoded user message as: ' + data.usermessage);
+  }
+  
+  
+  /*
+   * Add a star in a random position.
+   */
+  data.makeSparkle = function () {
+    // only for high framerates
+    if (data.fps.current < 15) return;
+    var x = Math.floor( Math.random() * data.W );
+    var y = Math.floor( Math.random() * (data.H / 2) );
+    data.sparkles.push({ x:x, y:y, brightness:1, angle:0});
+  }
+  
+  
+  /*
+   * Update and draw sparkles.
+   */
+  function renderSparkles(dt) {
+    
+    var p = data.sparkles.length;
+    for (var i=0; i<p; i++) {
+
+      // update each star brightness and rotation
+      var sparkle = data.sparkles[i];
+      sparkle.angle += dt * 2;
+      sparkle.brightness -= dt * 0.5;
+      
+      // draw the star
+      data.context.save();
+      data.context.translate(sparkle.x, sparkle.y);
+      data.context.rotate(sparkle.angle);
+      data.context.scale(sparkle.brightness, sparkle.brightness);
+      data.context.drawImage(data.images.sparkle, -data.images.sparkle.cenX, -data.images.sparkle.cenY);
+      data.context.restore();
+    }
+    
+    // remove faded sparkles
+    data.sparkles = data.sparkles.filter( function(n) { return n.brightness > 0 } );
+    
   }
   
   
