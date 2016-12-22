@@ -13,21 +13,25 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-  /*
-   * Toggle fullscreen request.
-   */
-  function toggleFullScreen() {
-    if (!document.mozFullScreen && !document.webkitFullScreen) {
-      if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else {
-        document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-      }
-    } else {
-      if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else {
-        document.webkitCancelFullScreen();
-      }
-    }
+/*
+ * Play some festive music.
+ */
+function playMusic() {
+  
+  function onSongLoaded(player) {
+      player.play();
   }
+  
+  xmas.modPlayer = new ScripTracker();
+  xmas.modPlayer.on(ScripTracker.Events.playerReady, onSongLoaded);
+  xmas.modPlayer.loadModule("https://api.modarchive.org/downloads.php?moduleid=118434#christmas_dance_mix.mod");
+}
+
+function toggleMusic() {
+  if (xmas.modPlayer.isPlaying)
+    xmas.modPlayer.stop();
+  else
+    xmas.modPlayer.play();
+}
+
+playMusic();

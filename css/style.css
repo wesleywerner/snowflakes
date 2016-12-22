@@ -63,3 +63,9 @@ canvas {
   bottom: 10px;
   left: 10px;
 }
+
+#musicbutton {
+  position: absolute;
+  bottom: 100px;
+  left: 10px;
+}
