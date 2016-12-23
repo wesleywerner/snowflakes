@@ -13,15 +13,15 @@ To scope out our goals:
 
 Let's get to it!
 
-### Add empty page, background gradient and blank js file ([commit](https://github.com/wesleywerner/snowflakes/commit/2eb0252c0ed660c4ae194b58e3dd30fad55e55b1))
+### Add empty page, background gradient and blank `js` file ([commit](https://github.com/wesleywerner/snowflakes/commit/2eb0252c0ed660c4ae194b58e3dd30fad55e55b1))
 
 ![figure 1](screenshots/2eb0252_thumb.png)
 
 We start with a minimal HTML, CSS and JS scaffold. The most prominent feature here is the background gradient in the style sheet, giving our page a picturesque skyline.
 
-### Include images in the page, write a basic preloader ([commit](https://github.com/wesleywerner/snowflakes/commit/fee114cf5b486ede77c039c068db8dfc3315f0b7))
+### Include images in the page, write a basic pre-loader ([commit](https://github.com/wesleywerner/snowflakes/commit/fee114cf5b486ede77c039c068db8dfc3315f0b7))
 
-Diving right into the JavaScript, we need a preloader for our images. We place image tags inside an invisible div and give them named data attributes to grab them easier using query selectors. We shove a canvas tag in here while we are at it.
+Diving right into the JavaScript, we need a pre-loader for our images. We place image tags inside an invisible `div` and give them named data attributes to grab them easier using query selectors. We shove a canvas tag in here while we are at it.
 
 **HTML**
 
@@ -98,7 +98,7 @@ Next we grab the canvas element and create the 2d context, we store both of thes
 
 ### Add a frame per second calculator ([commit](https://github.com/wesleywerner/snowflakes/commit/8e0be6b6cdf758b49b3db1044dab92fcc29b971c))
 
-Planning ahead, we add a frames-per-second calculator. We will cleverly add or remove snowflakes to accomodate a modest framerate, so that faster devices will show more snow, while slower devices will show less snow to prevent them from choking. Later we will add to this to ensure animations display at a constant speed across varying frame rates. We add a main drawing loop and print the FPS:
+Planning ahead, we add a frames-per-second calculator. We will cleverly add or remove snowflakes to accommodate a modest frame rate, so that faster devices will show more snow, while slower devices will show less snow to prevent them from choking. Later we will add to this to ensure animations display at a constant speed across varying frame rates. We add a main drawing loop and print the FPS:
 
 **JS**
 
@@ -386,7 +386,7 @@ Call the snowflake renderer in the main animation loop:
 
 ### Rotate the star ([commit](https://github.com/wesleywerner/snowflakes/commit/f7806ca473f5f807943d4ebd437c8b8578870163))
 
-Rotate the star above the tree, we calculate the center of the star image on preload for later:
+Rotate the star above the tree, we calculate the centre of the star image on pre-load for later:
 
 **JS**
 
@@ -446,7 +446,7 @@ Add some happy words in a floating container, and style the text:
 
 ### The End
 
-There you have it, a digital xmas card. I added some extra embellishments on top of what is shown here, notably a music player and flashing sparkles that sync` to the music, and on-screen buttons to toggle the music and full-screen modes.
+There you have it, a digital xmas card. I added some extra embellishments on top of what is shown here, notably a music player and flashing sparkles that sync to the music, and on-screen buttons to toggle the music and full-screen modes.
 
 Another feature loads a custom user message from the URL as base64 encoded text, as seen here [from html5gamedevs](https://wesleywerner.github.io/snowflakes/#RnJvbSBodG1sNWdhbWVkZXZzIQ==).
 
