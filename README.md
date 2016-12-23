@@ -379,7 +379,7 @@ We call the snowflake renderer in the main animation loop:
 
 * [Christmas Tree image by Karen Arnold, Public Domain](http://www.publicdomainpictures.net/view-image.php?image=197531&picture=christmas-tree-modern-card)
 * [JavaScript module player library by DhrBaksteen](https://github.com/DhrBaksteen/ScripTracker)
-* [Christmas Bonanza by DD](http://modarchive.org/index.php?request=view_by_moduleid&query=136833)
+* [snowflake music by nutcase](http://modarchive.org/index.php?request=view_by_moduleid&query=169703)
 * [material icons by Google](https://material.io/icons/)
 
 

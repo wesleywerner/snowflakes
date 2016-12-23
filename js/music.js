@@ -24,9 +24,9 @@ function playMusic() {
   
   xmas.modPlayer = new ScripTracker();
   xmas.modPlayer.on(ScripTracker.Events.playerReady, onSongLoaded);
-  xmas.modPlayer.loadModule("media/christmas_bonanza.xm");
+  xmas.modPlayer.loadModule("media/nutcase_-_snowflake.mod");
 
-  xmas.modPlayer.on(ScripTracker.Events.instrument, 1, onInstrument);
+  xmas.modPlayer.on(ScripTracker.Events.instrument, 2, onInstrument);
   function onInstrument(player, instrument, channel, note, effect, effectParam) {
     //console.log("Instrument " + instrument + " playing note " + note + " on channel " + channel + ".");
     xmas.makeSparkle();
