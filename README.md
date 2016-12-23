@@ -1,10 +1,8 @@
 # Snowflakes
 
-How to create a xmas card with JavaScript.
-
-# Tutorial
-
 I will now walk you through creating a digital xmas card for the festive season. We will use vanilla JavaScript and the web canvas API. There will be drifting snowflakes, a tree and some merry words.
+
+See the [live demo here](https://wesleywerner.github.io/snowflakes/).
 
 To scope out our goals:
 
@@ -208,7 +206,7 @@ And update our render loop to draw these images to the canvas context:
 
     function draw() {
       ...
-
+      
       // clear the screen
       data.context.clearRect(0, 0, data.W, data.H);
       
@@ -233,6 +231,7 @@ The snowflake generator adds and removes flakes dependant on the FPS of your dev
 
     var data = {
       ...
+      
       maxFlakes: 20,
       snowflakes: []
     }
@@ -292,6 +291,7 @@ An incremental angle is used to work out flake movement. Since this one variable
 
     var data = {
       ...
+      
       flakeAngle: 0,
     }
 
@@ -304,10 +304,12 @@ To ensure consistent speeds across devices, we update our FPS calculation to rec
      */
     data.fps = {
       ...
+      
       delta: 0,
       lastTime: 0,
       getFPS: function() {
-        ..
+        ...
+        
         var now = new Date().getTime();
         // track the difference in milliseconds since the last update
         this.delta = (now - this.lastTime) / 1000;
@@ -376,6 +378,7 @@ Call the snowflake renderer in the main animation loop:
 
     function draw() {
       ...
+      
       // draw our snow
       renderSnowflakes(data.fps.delta);
     }
@@ -388,7 +391,8 @@ Rotate the star above the tree, we calculate the center of the star image on pre
 **JS**
 
     function resizeCheck() {
-      ...
+        ...
+        
         star.cenX = star.width/2;
         star.cenY = star.height/2;
       }
@@ -397,6 +401,7 @@ Update and draw the star in the main animation loop:
 
     function draw() {
       ...
+      
       // draw our rotating star
       var star = data.images.star;
       star.angle = (star.angle || 0) + 0.01;
@@ -405,7 +410,6 @@ Update and draw the star in the main animation loop:
       data.context.rotate(data.images.star.angle);
       data.context.drawImage(data.images.star, -star.cenX, -star.cenY);
       data.context.restore();
-      ...
 
 ### Show some festive words ([commit](https://github.com/wesleywerner/snowflakes/commit/87b791ffd4c475b08af41f3c11ac03007949a729))
 
@@ -438,10 +442,15 @@ Add some happy words in a floating container, and style the text:
       /* style the message font and color */
     }
 
+![figure 4](screenshots/87b791f_thumb.png)
+
 ### The End
 
-There you have it, a web canvas christmas card. 
+There you have it, a digital xmas card. I added some extra embellishments on top of what is shown here, notably a music player and flashing sparkles that sync` to the music, and on-screen buttons to toggle the music and full-screen modes.
 
+Another feature loads a custom user message from the URL as base64 encoded text, as seen here [from html5gamedevs](https://wesleywerner.github.io/snowflakes/#RnJvbSBodG1sNWdhbWVkZXZzIQ==).
+
+Please fork and have fun making your own xmas cards!
 
 # Credits
 
@@ -450,7 +459,6 @@ There you have it, a web canvas christmas card.
 * [JavaScript module player library by DhrBaksteen](https://github.com/DhrBaksteen/ScripTracker)
 * [snowflake music by nutcase](http://modarchive.org/index.php?request=view_by_moduleid&query=169703)
 * [material icons by Google](https://material.io/icons/)
-
 
 # License
 
