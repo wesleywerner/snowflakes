@@ -160,6 +160,8 @@ var xmas = ( function() {
     // clear the screen
     data.context.clearRect(0, 0, data.W, data.H);
     
+    renderSparkles(data.fps.delta);
+    
     // draw our tree
     data.context.drawImage(
       data.images.tree,
@@ -177,8 +179,6 @@ var xmas = ( function() {
     
     // draw our snow
     renderSnowflakes(data.fps.delta);
-    
-    renderSparkles(data.fps.delta);
     
     // calculate rendering speed
     data.fps.getFPS();
