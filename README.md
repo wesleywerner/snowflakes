@@ -82,6 +82,8 @@ This creates the only global object, named `xmas`. The images will be available 
 
 Next we grab the canvas element and create the 2d context, we store both of these on the xmas object:
 
+**JS**
+
     var data = {
       loaded: false,
       canvas: null,
@@ -153,6 +155,8 @@ Planning ahead, we add a frames-per-second calculator. We will cleverly add or r
 
 To adapt our canvas to changing screen dimensions (rotating mobile devices and resized browser windows) we do a periodic check of the window size against the current known size. If a difference is detected we adjust the canvas element size to match the screen. The known size starts at zero so this check evaluates for the first time after page load.
 
+**JS**
+
     /*
      * Check for window size change and recalculate positions.
      */
@@ -177,6 +181,8 @@ To adapt our canvas to changing screen dimensions (rotating mobile devices and r
 During the canvas size check we calculate the positions to draw our tree and star images:
 
    
+**JS**
+
     function resizeCheck() {
       ...
       
@@ -197,8 +203,9 @@ During the canvas size check we calculate the positions to draw our tree and sta
       }
 
 And update our render loop to draw these images to the canvas context:
-
    
+**JS**
+
     function draw() {
       ...
 
@@ -222,6 +229,8 @@ And update our render loop to draw these images to the canvas context:
 
 The snowflake generator adds and removes flakes dependant on the FPS of your device. First we create a snowflake array to store all of them, and start with a minimal number of twenty flakes.
 
+**JS**
+
     var data = {
       ...
       maxFlakes: 20,
@@ -229,6 +238,8 @@ The snowflake generator adds and removes flakes dependant on the FPS of your dev
     }
 
 Next we make the reusable function `makeFlake`:
+
+**JS**
 
     /*
      * Create a unique snowflake.
@@ -243,6 +254,8 @@ Next we make the reusable function `makeFlake`:
     }
 
 The `adjustFlakes` function checks the current frames per second and adds or removes flakes as required. We call this function periodically through an interval timer:
+
+**JS**
 
     /*
      * Increase and decrease the number of snowflakes as allowed by fps.
@@ -275,12 +288,16 @@ The `adjustFlakes` function checks the current frames per second and adds or rem
 
 An incremental angle is used to work out flake movement. Since this one variable affects all snowflakes they will appear to move in synchronicity.
 
+**JS**
+
     var data = {
       ...
       flakeAngle: 0,
     }
 
 To ensure consistent speeds across devices, we update our FPS calculation to record the time passed since the last update, the delta time:
+
+**JS**
 
     /*
      * A simple frames per second calculator.
@@ -299,6 +316,8 @@ To ensure consistent speeds across devices, we update our FPS calculation to rec
     };
 
 The fun part starts with animating the snowflake movements:
+
+**JS**
 
     /*
      * Update and draw snowflakes.
@@ -351,20 +370,22 @@ The fun part starts with animating the snowflake movements:
       
     }
 
-We call the snowflake renderer in the main animation loop:
+Call the snowflake renderer in the main animation loop:
 
-  /*
-   * Main drawing loop.
-   */
-  function draw() {
-    ...
-    // draw our snow
-    renderSnowflakes(data.fps.delta);
-  }
+**JS**
+
+    function draw() {
+      ...
+      // draw our snow
+      renderSnowflakes(data.fps.delta);
+    }
 
 
-### Rotate the star  ([commit](https://github.com/wesleywerner/snowflakes/commit/f7806ca473f5f807943d4ebd437c8b8578870163))
+### Rotate the star ([commit](https://github.com/wesleywerner/snowflakes/commit/f7806ca473f5f807943d4ebd437c8b8578870163))
 
+Rotate the star above the tree, we calculate the center of the star image on preload for later:
+
+**JS**
 
     function resizeCheck() {
       ...
@@ -372,11 +393,59 @@ We call the snowflake renderer in the main animation loop:
         star.cenY = star.height/2;
       }
 
+Update and draw the star in the main animation loop:
 
+    function draw() {
+      ...
+      // draw our rotating star
+      var star = data.images.star;
+      star.angle = (star.angle || 0) + 0.01;
+      data.context.save();
+      data.context.translate(data.images.star.pos.x, data.images.star.pos.y);
+      data.context.rotate(data.images.star.angle);
+      data.context.drawImage(data.images.star, -star.cenX, -star.cenY);
+      data.context.restore();
+      ...
+
+### Show some festive words ([commit](https://github.com/wesleywerner/snowflakes/commit/87b791ffd4c475b08af41f3c11ac03007949a729))
+
+Add some happy words in a floating container, and style the text:
+
+**HTML**
+
+    <body>
+      <div id="container">
+        <div id="merrymessage">Merry Xmas</div>
+        <div id="usermessage">Wishing you a festive holiday!</div>
+      </div>
+      <canvas></canvas>
+
+**CSS**
+
+    #container {
+      position: absolute;
+      margin-left: auto;
+      margin-right: auto;
+      right: 40px;
+      top: 40px;
+    }
+
+    #merrymessage {
+      /* style the message font and color */
+    }
+
+    #usermessage {
+      /* style the message font and color */
+    }
+
+### The End
+
+There you have it, a web canvas christmas card. 
 
 
 # Credits
 
+* [Snowflakes digital xmas card by Wesley Werner](https://github.com/wesleywerner/snowflakes)
 * [Christmas Tree image by Karen Arnold, Public Domain](http://www.publicdomainpictures.net/view-image.php?image=197531&picture=christmas-tree-modern-card)
 * [JavaScript module player library by DhrBaksteen](https://github.com/DhrBaksteen/ScripTracker)
 * [snowflake music by nutcase](http://modarchive.org/index.php?request=view_by_moduleid&query=169703)
